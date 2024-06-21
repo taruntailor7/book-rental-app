@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getBookAPI, rentBookAPI } from '@/services/api';
+import { getBookAPI, getRentalsAPI, rentBookAPI } from '@/services/api';
 import { Book } from '@/types';
 import Image from 'next/image';
 import { User } from '@/types';
@@ -19,12 +19,19 @@ export default function BookDetails() {
       try {
         const response = await getBookAPI(Number(id));
         setBook(response.data);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const parsedUser: User = JSON.parse(storedUser);
+          const response = await getRentalsAPI(parsedUser.id);
+          const rentedBooks = response.data.map((rental: any) => rental.bookId);
+          setIsRented(rentedBooks.includes(Number(id)));
+        }
       } catch (error) {
         console.error('Error fetching book:', error);
       }
     };
-
     fetchBook();
+
   }, [id]);
 
   const handleRent = async () => {
@@ -33,7 +40,7 @@ export default function BookDetails() {
       if (storedUser) {
         const parsedUser: User = JSON.parse(storedUser);
         console.log("user", parsedUser);
-        await rentBookAPI({
+        let res = await rentBookAPI({
           userId: parsedUser.id,
           bookId: book?.id,
           bookTitle: book?.title,
@@ -42,7 +49,8 @@ export default function BookDetails() {
           bookDescription: book?.description,
         });
         setIsRented(true);
-        alert('Book rented successfully!');
+        console.log("res.data", res.data);
+        alert(res.data.message)
       } else {
         console.error('No user found in local storage.');
       }
@@ -50,7 +58,7 @@ export default function BookDetails() {
       console.error('Error renting book:', error);
       alert('Failed to rent book. Please try again.');
     }
-  };
+  };  
 
   return (
     <AuthCheck>
@@ -61,7 +69,7 @@ export default function BookDetails() {
               <div className="md:flex-shrink-0">
                 <div className="h-96 w-full md:w-96 relative">
                   <Image
-                    src={book.imageUrl ||'https://m.media-amazon.com/images/I/51CxmVYKYsL._SR290,290_.jpg' }
+                    src={book.imageUrl || 'https://m.media-amazon.com/images/I/51CxmVYKYsL._SR290,290_.jpg' }
                     alt={book.title}
                     layout="fill"
                     objectFit="cover"

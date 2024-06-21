@@ -17,7 +17,6 @@ export default function ConsumerDetails() {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
           const parsedUser: User = JSON.parse(storedUser);
-          console.log("user", parsedUser);
           const response = await getUserAPI(parsedUser.id);
           setUser(response.data);
         } else {
@@ -46,6 +45,7 @@ export default function ConsumerDetails() {
                 className="rounded-full"
               />
             </div>
+            <p className="text-xl font-bold mb-2">Uniqure ID: {user.id}</p>
             <p className="text-xl font-semibold mb-2">Email : {user.email}</p>
             {(user.firstName && user.lastName) && <p className="text-lg mb-1">Consumer Name: {user.firstName} {user.lastName}</p>}
             <p className="text-lg">Member since: {new Date(user.createdAt).toLocaleDateString()}</p>

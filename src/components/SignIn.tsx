@@ -24,13 +24,15 @@ const SignIn = () => {
     try {
       const response = await signInAPI({ email, password });
       // Assuming the API returns a isLoggedIn
-      if(response) {
-        console.log("response.data", response.data); 
+      if(!response.data.error) {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('user', JSON.stringify(response.data));
-        alert('Sign in successful!');
+        alert(response.data.message);
         router.push('/books');
         window.location.reload();
+      } else {
+        alert(response.data.message);
+        router.push('/signin');
       }
     } catch (error) {
       console.error('Sign in failed:', error);
