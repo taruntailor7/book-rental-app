@@ -10,49 +10,41 @@ const Navbar = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-  }, []);
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(loggedIn);
+  }, [router]);
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     router.push('/signin');
+    window.location.reload();
   };
 
   return (
-    <nav className="bg-gray-800">
+    <nav className="bg-indigo-700 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
-              <img className="h-8 w-8" src="/logo.png" alt="Logo" />
+              <span className="text-white">BooKRent</span>
+              {/* <img className="h-8 w-8" src="https://content.jdmagicbox.com/comp/rajkot/s5/0281px281.x281.171013205123.t5s5/catalogue/bookrent-in-moti-tanki-chowk-rajkot-book-shops-qjyzozs5e4-250.jpg" alt="Logo" /> */}
             </Link>
-            {isLoggedIn && (
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-4">
-                  <Link href="/books" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Books
-                  </Link>
-                  <Link href="/rental-details" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Rentals
-                  </Link>
-                  <Link href="/consumer-details" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                    Profile
-                  </Link>
-                </div>
-              </div>
-            )}
           </div>
-          <div>
-            {isLoggedIn ? (
-              <button onClick={handleSignOut} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+          <div className="flex items-center">
+            {!isLoggedIn ? (
+              <>
+                <Link href="/signup" className="text-gray-200 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Sign Up
+                </Link>
+                <Link href="/signin" className="ml-4 text-gray-200 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                  Sign In
+                </Link>
+              </>
+            ) : (
+              <button onClick={handleSignOut} className="ml-4 text-gray-200 hover:bg-indigo-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                 Sign Out
               </button>
-            ) : (
-              <Link href="/signin" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Sign In
-              </Link>
             )}
           </div>
         </div>

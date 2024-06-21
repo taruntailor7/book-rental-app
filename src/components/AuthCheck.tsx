@@ -8,9 +8,12 @@ const AuthCheck = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/signin');
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      router.push('/signup');
+    } 
+    if(isLoggedIn) {
+      router.push('/books');
     }
   }, [router]);
 
