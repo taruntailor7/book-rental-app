@@ -39,7 +39,6 @@ export default function BookDetails() {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const parsedUser: User = JSON.parse(storedUser);
-        console.log("user", parsedUser);
         let res = await rentBookAPI({
           userId: parsedUser.id,
           bookId: book?.id,
@@ -49,7 +48,6 @@ export default function BookDetails() {
           bookDescription: book?.description,
         });
         setIsRented(true);
-        console.log("res.data", res.data);
         alert(res.data.message)
       } else {
         console.error('No user found in local storage.');

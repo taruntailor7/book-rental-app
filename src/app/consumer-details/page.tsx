@@ -6,7 +6,6 @@ import { getUserAPI } from '@/services/api';
 import { User } from '@/types';
 import Image from 'next/image';
 import AuthCheck from '@/components/AuthCheck';
-import { useRouter } from 'next/navigation';
 
 export default function ConsumerDetails() {
   const [user, setUser] = useState<User | null>(null);

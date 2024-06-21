@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 'use client';
 
 import Link from 'next/link';
@@ -16,9 +15,9 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('user');
     setIsLoggedIn(false);
     router.push('/signin');
-    localStorage.removeItem('user');
     window.location.reload();
   };
 
@@ -29,7 +28,6 @@ const Navbar = () => {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
               <span className="text-white">BooKRent</span>
-              {/* <img className="h-8 w-8" src="https://content.jdmagicbox.com/comp/rajkot/s5/0281px281.x281.171013205123.t5s5/catalogue/bookrent-in-moti-tanki-chowk-rajkot-book-shops-qjyzozs5e4-250.jpg" alt="Logo" /> */}
             </Link>
           </div>
           <div className="flex items-center">

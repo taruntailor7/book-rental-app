@@ -16,10 +16,8 @@ export default function RentalDetails() {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
           const parsedUser: User = JSON.parse(storedUser);
-
           const response = await getRentalsAPI(parsedUser.id);
           setRentals(response.data);
-          
         } else {
           console.error('No user found in local storage.');
         }

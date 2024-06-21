@@ -1,4 +1,3 @@
-// src/components/SignUp.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -21,21 +20,16 @@ const SignUp = () => {
   }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("handleSubmit calling"); 
     e.preventDefault();
     try {
       let res = await signUpAPI({ email, password, firstName, lastName });
       if(res.data.error) {
-        console.error('Sign up failed:', res.data.message);
         alert(res.data.message);
       } else {
-        console.error('Sign up failed:', res.data.message);
         alert(res.data.message);
         router.push('/signin');
       }
-      
     } catch (error) {
-      console.error('Sign up failed:', error);
       alert('Sign up failed. Please try again.');
     }
   };
