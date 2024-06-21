@@ -26,7 +26,7 @@ const SignIn = () => {
       // Assuming the API returns a isLoggedIn
       if(!response.data.error) {
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('user', JSON.stringify(response.data));
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         alert(response.data.message);
         router.push('/books');
         window.location.reload();
