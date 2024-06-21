@@ -18,6 +18,7 @@ const Navbar = () => {
     localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
     router.push('/signin');
+    localStorage.removeItem('user');
     window.location.reload();
   };
 

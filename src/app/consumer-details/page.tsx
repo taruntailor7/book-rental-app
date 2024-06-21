@@ -1,8 +1,12 @@
+// src/components/ConsumerDetails.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { getUserAPI } from '@/services/api';
 import { User } from '@/types';
+import Image from 'next/image';
+import AuthCheck from '@/components/AuthCheck';
+import { useRouter } from 'next/navigation';
 
 export default function ConsumerDetails() {
   const [user, setUser] = useState<User | null>(null);
@@ -10,10 +14,15 @@ export default function ConsumerDetails() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        // Assuming you have the user ID stored somewhere (e.g., in localStorage)
-        const userId = 1; // Replace with actual user ID
-        const response = await getUserAPI(userId);
-        setUser(response.data);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const parsedUser: User = JSON.parse(storedUser);
+          console.log("user", parsedUser);
+          const response = await getUserAPI(parsedUser.id);
+          setUser(response.data);
+        } else {
+          console.error('No user found in local storage.');
+        }
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -22,15 +31,27 @@ export default function ConsumerDetails() {
     fetchUser();
   }, []);
 
-  if (!user) return <div>Loading...</div>;
-
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Consumer Details</h1>
-      <p>Email: {user.email}</p>
-      {user.firstName && <p>First Name: {user.firstName}</p>}
-      {user.lastName && <p>Last Name: {user.lastName}</p>}
-      <p>Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
-    </div>
+    <AuthCheck>    
+      {user && (<div className="container mx-auto px-4 py-8">
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <h1 className="text-3xl font-bold mb-6 text-center">Consumer Details</h1>
+          <div className="flex flex-col items-center">
+            <div className="relative h-32 w-32 mb-4">
+              <Image
+                src={'https://static.thenounproject.com/png/363639-200.png'}
+                alt={`${user.firstName} ${user.lastName}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
+            <p className="text-xl font-semibold mb-2">Email : {user.email}</p>
+            {(user.firstName && user.lastName) && <p className="text-lg mb-1">Consumer Name: {user.firstName} {user.lastName}</p>}
+            <p className="text-lg">Member since: {new Date(user.createdAt).toLocaleDateString()}</p>
+          </div>
+        </div>
+      </div>)}
+    </AuthCheck>
   );
 }

@@ -4,7 +4,6 @@
 import { useEffect, useState } from 'react';
 import { signUpAPI } from '@/services/api';
 import { useRouter } from 'next/navigation';
-import AuthCheck from './AuthCheck';
 import Link from 'next/link';
 
 const SignUp = () => {
@@ -25,10 +24,7 @@ const SignUp = () => {
     console.log("handleSubmit calling"); 
     e.preventDefault();
     try {
-      console.log("email", email); 
-      console.log("password", password); 
       let res = await signUpAPI({ email, password, firstName, lastName });
-      console.log("res", res.data); 
       if(res.data.error) {
         console.error('Sign up failed:', res.data.message);
         alert(res.data.message);

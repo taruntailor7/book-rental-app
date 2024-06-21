@@ -10,12 +10,10 @@ const AuthCheck = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (!isLoggedIn) {
-      router.push('/signup');
+      return router.push('/signin');
     } 
-    if(isLoggedIn) {
-      router.push('/books');
-    }
   }, [router]);
+
 
   return <>{children}</>;
 };
