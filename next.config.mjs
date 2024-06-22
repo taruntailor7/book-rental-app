@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['cdn.codegym.cc', 'another-domain.com', 'yet-another-domain.com', 'static.thenounproject.com','example.com'],
+    unoptimized: true,
+    domains: ['cdn.codegym.cc', 'another-domain.com', 'yet-another-domain.com', 'static.thenounproject.com','example.com','images-na.ssl-images-amazon.com','*'],
   },
 };
 

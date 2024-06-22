@@ -80,7 +80,7 @@ export default function BookDetails() {
                   <h1 className="text-3xl font-extrabold text-gray-900 mb-4">{book.title}</h1>
                   <div className="flex items-center mb-6">
                     <span className="text-2xl font-bold text-indigo-600">{book.price} Rs.</span>
-                    <span className="ml-2 text-sm text-gray-500">per month</span>
+                    <span className="ml-2 text-sm text-gray-500">per day</span>
                   </div>
                   <p className="text-gray-700 text-lg leading-relaxed mb-8">{book.description}</p>
                 </div>
